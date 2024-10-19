@@ -4,7 +4,7 @@ from db.DataController import DataController
 api = Blueprint("category", __name__)
 db = DataController("db/categories.csv", ["id", "name"])
 
-@api.route("/category", methods=["GET", "POST", "DELETE"])
+@api.route("/", methods=["GET", "POST", "DELETE"])
 def category():
     if request.method == "GET":
         return jsonify(db.readAll())

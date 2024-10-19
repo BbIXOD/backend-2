@@ -1,16 +1,17 @@
 import csv
 import os
 
+
+# Technically dictionary in memory is also database and i went a bit further
 class DataController:
     def __init__(self, file, fields):
         self.file = file
         self.fields = fields
         self.key = fields[0]
 
-        if not os.path.exists(self.file):
-            with open(self.file, "w", newline='') as f:
-                writer = csv.DictWriter(f, fieldnames=self.fields)
-                writer.writeheader()
+        if not os.path.exists(file):
+            with open(file, 'w'):
+                pass
     
     def read(self):
         file = open(self.file, "r")
