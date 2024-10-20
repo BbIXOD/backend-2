@@ -5,7 +5,7 @@ api = Blueprint("user", __name__)
 db = DataController("db/users.csv", ["id", "name"])
 
 @api.route("/user/<user_id>", methods=["GET", "DELETE"])
-def get_user(user_id):
+def user_action_id(user_id):
     user = db.find(user_id) if request.method == "GET" else db.remove(user_id)
     if not user: abort(404)
     return jsonify(user)
