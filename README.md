@@ -11,3 +11,6 @@
 
 # Student info
 Дячок Максим Андрійлвич, ІМ-21
+
+## Note
+If side somehow doesnt wor ask me to redeploy it please
