@@ -16,4 +16,4 @@ def root():
     return jsonify({"status": "working"})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=os.getenv("PORT") or 5000)
+    app.run(debug=True, port=os.getenv("PORT") or 5000, host="0.0.0.0")
