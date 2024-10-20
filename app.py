@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, jsonify
 from routes.user import api as user
 from routes.category import api as category
@@ -14,4 +16,4 @@ def root():
     return jsonify({"status": "working"})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=os.getenv("PORT") or 5000)
