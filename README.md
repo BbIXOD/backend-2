@@ -7,7 +7,7 @@
 
 # Links
 [Postman flow](https://web.postman.co/workspace/My-Workspace~dd8b0162-2a89-4bef-8a57-101090b8fe86/flow/671507bbdd15e6003de0fe92)
-[Deployed site](https://backend-2-tlph.onrender.com)
+[Deployed site](https://backend-2-esfn.onrender.com/)
 
 # Student info
 Дячок Максим Андрійлвич, ІМ-21
