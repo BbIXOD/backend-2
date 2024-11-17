@@ -1,29 +1,44 @@
 from flask import Blueprint, request, jsonify, abort
-from data_utils.DataController import DataController
-from data_utils.entities import UserSchema
+from factory import db
+from data_utils.models import UserModel
 
 api = Blueprint("user", __name__)
-db = DataController("data_utils/users.csv", ["id", "name"])
 
-@api.route("/user/<user_id>", methods=["GET", "DELETE"])
+@api.route("/user/<int:user_id>", methods=["GET", "DELETE"])
 def user_action_id(user_id):
-    user = db.find(user_id) if request.method == "GET" else db.remove(user_id)
-    if not user: abort(404)
-    return jsonify(user)
+    user = UserModel.query.get(user_id)
+    if not user:
+        abort(404, "User not found")
+    
+    if request.method == "GET":
+        return jsonify(user.to_dict())
+
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({"message": "User deleted", "id": user_id})
 
 @api.route("/user", methods=["POST"])
 def add_user():
+    json_data = request.json
+    if not json_data:
+        abort(400, "Missing JSON data")
+
     try:
-        user_schema = UserSchema()
-        params = user_schema.load(request.json)
+        name = json_data["name"]
+        existing_user = UserModel.query.filter_by(name=name).first()
+        if existing_user:
+            abort(409, "User with this name already exists")
 
-        added = db.add(*params.values())
-        if not added: abort(409)
-        return jsonify(record_schema.dump(params)), 201
-    except:
-        return jsonify({"errors": err.messages}), 400
+        new_user = UserModel(name=name)
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify(new_user.to_dict()), 201
+    except KeyError:
+        abort(400, "Missing 'name' field")
+    except Exception as e:
+        abort(500, str(e))
 
-
-@api.route("/users")
+@api.route("/users", methods=["GET"])
 def get_all_users():
-    return jsonify(db.readAll())
+    users = UserModel.query.all()
+    return jsonify([user.to_dict() for user in users])
