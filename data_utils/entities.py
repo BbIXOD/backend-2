@@ -15,3 +15,7 @@ class RecordSchema:
     timestamp = fields.DateTime(format="%d/%m/%Y %H:%M:%S", dump_only=True)
     spent = fields.Float(required=True, validate=validate.Range(min=0))
 
+class WalletSchema:
+    id = fields.Int(dump_only=True, validate=validate.Range(min=1))
+    money = fields.Float(required=True, validate=validate.Range(min=0))
+

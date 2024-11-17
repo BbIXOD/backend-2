@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, abort
 from factory import db
-from data_utils.models import RecordModel
+from data_utils.models import RecordModel, WalletModel
 
 api = Blueprint("record", __name__)
 
@@ -26,8 +26,20 @@ def record_action():
         abort(400, "Missing JSON data")
 
     try:
+        user_id = json_data["user_id"]
+        wallet = WalletModel.query.filter_by(user_id=user_id).first()
+        
+        if not wallet:
+            abort(400, "User has no wallet")
+
+        if wallet.money < spent:
+            abort(400, "Insufficient funds")
+
+        wallet.money -= spent
+        db.session.commit()
+        
         new_record = RecordModel(
-            user_id=json_data["user_id"],
+            user_id=user_id,
             category_id=json_data["category_id"],
             spent=json_data["spent"]
         )

@@ -7,6 +7,7 @@ class UserModel(db.Model):
     name = db.Column(db.String(128), unique=True, nullable=False)
 
     record = db.relationship("RecordModel", back_populates="user", lazy="dynamic")
+    wallet = db.relationship("WalletModel", back_populates="user", lazy="dynamic")
 
     def to_dict(self):
         return {
@@ -14,6 +15,22 @@ class UserModel(db.Model):
             "name": self.name
         }
 
+class WalletModel(db.Model):
+    __tablename__ = "wallet"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("user.id"), unique=False, nullable=False
+    )
+    money = db.Column(db.Float(precision=2), unique=False, nullable=False, default=0)
+
+    user = db.relationship("UserModel", back_populates="wallet")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "money": self.money
+        }
 
 class CategoryModel(db.Model):
     __tablename__ = "category"
