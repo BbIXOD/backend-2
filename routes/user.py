@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, abort
 from db.DataController import DataController
+from db.entities import UserSchema
 
 api = Blueprint("user", __name__)
 db = DataController("db/users.csv", ["id", "name"])
@@ -12,13 +13,16 @@ def user_action_id(user_id):
 
 @api.route("/user", methods=["POST"])
 def add_user():
-    json = request.json
-    id = json.get("id")
-    name = json.get("name")
+    try:
+        user_schema = UserSchema()
+        params = user_schema.load(request.json)
 
-    added = db.add(id, name)
-    if not added: abort(409)
-    return {"id": id, "name": name}, 201
+        added = db.add(*params.values())
+        if not added: abort(409)
+        return jsonify(record_schema.dump(params)), 201
+    except:
+        return jsonify({"errors": err.messages}), 400
+
 
 @api.route("/users")
 def get_all_users():
