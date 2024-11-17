@@ -1,11 +1,10 @@
 import os
 
-from flask import Flask, jsonify
+from flask import jsonify
 from routes.user import api as user
 from routes.category import api as category
 from routes.record import api as record
-
-app = Flask(__name__)
+from factory import app
 
 app.register_blueprint(user, url_prefix='/')
 app.register_blueprint(category, url_prefix='/category')

@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify, abort
-from db.DataController import DataController
-from db.entities import UserSchema
+from data_utils.DataController import DataController
+from data_utils.entities import UserSchema
 
 api = Blueprint("user", __name__)
-db = DataController("db/users.csv", ["id", "name"])
+db = DataController("data_utils/users.csv", ["id", "name"])
 
 @api.route("/user/<user_id>", methods=["GET", "DELETE"])
 def user_action_id(user_id):

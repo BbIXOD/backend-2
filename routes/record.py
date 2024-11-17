@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify, abort
-from db.DataController import DataController
+from data_utils.DataController import DataController
 from datetime import datetime
-from db.entities import RecordSchema
+from data_utils.entities import RecordSchema
 
 api = Blueprint("record", __name__)
-db = DataController("db/records.csv", ["id", "user_id", "category_id", "timestamp", "spent"])
+db = DataController("data_utils/records.csv", ["id", "user_id", "category_id", "timestamp", "spent"])
 
 @api.route("/", methods=["GET", "POST"])
 def record_action():

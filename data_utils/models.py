@@ -1,4 +1,4 @@
-import sqlalchemy as db
+from factory import db
 
 
 class UserModel(db.Model):
