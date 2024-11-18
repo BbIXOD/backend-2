@@ -32,6 +32,8 @@ def record_action():
         if not wallet:
             abort(400, "User has no wallet")
 
+        spent = json_data["spent"]
+
         if wallet.money < spent:
             abort(400, "Insufficient funds")
 
@@ -41,7 +43,7 @@ def record_action():
         new_record = RecordModel(
             user_id=user_id,
             category_id=json_data["category_id"],
-            spent=json_data["spent"]
+            spent=spent
         )
         db.session.add(new_record)
         db.session.commit()

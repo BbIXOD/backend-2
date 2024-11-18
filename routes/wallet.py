@@ -33,7 +33,7 @@ def wallet_action_id(wallet_id):
 @api.route("/", methods=["GET", "POST"])
 def wallet_action():
     if request.method == "GET":
-        return jsonify(wallet.to_dict() for wallet in WalletModel.query.all())
+        return jsonify([wallet.to_dict() for wallet in WalletModel.query.all()])
 
     json_data = request.json
     if not json_data:
