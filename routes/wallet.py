@@ -4,7 +4,7 @@ from data_utils.models import WalletModel
 
 api = Blueprint("wallet", __name__)
 
-@api.route("/<int:wallet_id>", methods=["GET", "DELETE"])
+@api.route("/<int:wallet_id>", methods=["GET", "PUT", "DELETE"])
 def wallet_action_id(wallet_id):
     wallet = WalletModel.query.get(wallet_id)
     if not wallet:
@@ -12,6 +12,19 @@ def wallet_action_id(wallet_id):
     
     if request.method == "GET":
         return jsonify(wallet.to_dict())
+    
+    if request.method == "PUT":
+        json_data = request.json
+        if not json_data:
+            abort(400, "Missing json data")
+        try:
+            wallet.money += json_data["money"]
+            db.session.commit()
+            return jsonify(wallet.to_dict())
+        except KeyError:
+            abort(400, "Missing 'money' field")
+        except Exception as e:
+            abort(500, str(e))
 
     db.session.delete(wallet)
     db.session.commit()
