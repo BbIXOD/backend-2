@@ -11,3 +11,4 @@ IM-**21** -> 21 mod 3 = 0. 0 is task 3 (Облік доходів)
 
 ## Notes
 You can put env variables in .env file
+Flow: https://www.postman.com/test-task-solidgate/workspace/pub-repo/flow/673d0f349f08bc6e983dd738
