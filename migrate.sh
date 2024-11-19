@@ -3,8 +3,7 @@
 
 set -e
 
-flask db init
-until flask db migrate && flask db upgrade; do
+until flask db migrate || flask db upgrade; do
   >&2 echo "Postgres is unavailable or migration failed - sleeping"
   sleep 1
 done
