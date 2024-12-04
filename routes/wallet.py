@@ -1,18 +1,21 @@
 from flask import Blueprint, request, jsonify, abort
 from factory import db
 from data_utils.models import WalletModel
+from flask_jwt_extended import jwt_required
 
 api = Blueprint("wallet", __name__)
 
+
+@jwt_required()
 @api.route("/<int:wallet_id>", methods=["GET", "PUT", "DELETE"])
 def wallet_action_id(wallet_id):
     wallet = WalletModel.query.get(wallet_id)
     if not wallet:
         abort(404, "Wallet not found")
-    
+
     if request.method == "GET":
         return jsonify(wallet.to_dict())
-    
+
     if request.method == "PUT":
         json_data = request.json
         if not json_data:
@@ -30,6 +33,8 @@ def wallet_action_id(wallet_id):
     db.session.commit()
     return jsonify({"message": "Wallet deleted", "id": wallet_id})
 
+
+@jwt_required()
 @api.route("/", methods=["GET", "POST"])
 def wallet_action():
     if request.method == "GET":

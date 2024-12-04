@@ -1,11 +1,12 @@
 from flask import Blueprint, request, jsonify, abort
 from factory import db
 from data_utils.models import UserModel
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 
 api = Blueprint("user", __name__)
 
 
+@jwt_required()
 @api.route("/user/<int:user_id>", methods=["GET", "DELETE"])
 def user_action_id(user_id):
     user = UserModel.query.get(user_id)
@@ -45,7 +46,6 @@ def add_user():
     except Exception as e:
         abort(500, str(e))
 
-
 @api.route("/login", methods=["POST"])
 def login():
     json_data = request.json
@@ -65,7 +65,7 @@ def login():
     except Exception as e:
         abort(500, str(e))
 
-
+@jwt_required()
 @api.route("/users", methods=["GET"])
 def get_all_users():
     users = UserModel.query.all()

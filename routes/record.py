@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify, abort
 from factory import db
 from data_utils.models import RecordModel, WalletModel
+from flask_jwt_extended import jwt_required
 
 api = Blueprint("record", __name__)
 
+@jwt_required()
 @api.route("/", methods=["GET", "POST"])
 def record_action():
     if request.method == "GET":
@@ -53,6 +55,7 @@ def record_action():
     except Exception as e:
         abort(500, str(e))
 
+@jwt_required()
 @api.route("/<int:record_id>", methods=["GET", "DELETE"])
 def record_id_action(record_id):
     record = RecordModel.query.get(record_id)
