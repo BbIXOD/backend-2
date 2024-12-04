@@ -6,7 +6,7 @@
 5. run project itself (`python app.py`)
 
 # Links
-[Postman flow]([https://web.postman.co/workspace/My-Workspace~dd8b0162-2a89-4bef-8a57-101090b8fe86/flow/671507bbdd15e6003de0fe92](https://www.postman.com/test-task-solidgate/workspace/pub-repo/flow/673d0f8a8cb8a6693f408cda))
+[Postman flow](https://www.postman.com/test-task-solidgate/workspace/pub-repo/flow/673d0f8a8cb8a6693f408cda)
 [Deployed site](https://backend-2-esfn.onrender.com/)
 
 # Student info
