@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, abort
 from factory import db
 from data_utils.models import UserModel
 from flask_jwt_extended import create_access_token, jwt_required
+from passlib.hash import pbkdf2_sha256
 
 api = Blueprint("user", __name__)
 
@@ -36,7 +37,7 @@ def add_user():
         password = json_data["password"]
         new_user = UserModel(
             name=name,
-            password=pbkdf2_sha256.hash(user_data["password"]),
+            password=pbkdf2_sha256.hash(json_data["password"]),
         )
         db.session.add(new_user)
         db.session.commit()
@@ -54,7 +55,7 @@ def login():
 
     try:
         name = json_data["name"]
-        existing_user = UserModel.query.filter_by(name=name).first()
+        user = UserModel.query.filter_by(name=name).first()
         if not user or not pbkdf2_sha256.verify(json_data["password"], user.password):
             abort(401, "Invalid name or password")
 
