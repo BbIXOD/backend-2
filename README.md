@@ -2,7 +2,7 @@
 1. get docker
 2. cd into project folder
 3. set .env file according to example
-4. run `flask db init && flask db migrate && flask db upgrade` whith passed env variables (define them in any way)
+4. run `flask db init; flask db migrate; flask db upgrade` whith passed env variables (define them in any way)
 4. in `docker-compose.yml` set `.env.example` to `.env`
 3. run container (`POSTGRES_PASSWORD=<password to your db> docker-compose up`)
 
